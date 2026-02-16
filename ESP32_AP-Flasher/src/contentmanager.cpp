@@ -1,5 +1,7 @@
 #include "contentmanager.h"
 
+#include <string>
+
 // possibility to turn off, to save space if needed
 #ifndef SAVE_SPACE
 #define CONTENT_QR
@@ -701,7 +703,8 @@ void drawString(TFT_eSprite &spr, String content, int16_t posx, int16_t posy, St
         String numericValueStr = font.substring(14);
         int calibriSize = numericValueStr.toInt();
         if (calibriSize != 30 && calibriSize != 16) {
-            font = "Signika-SB.ttf";
+            //font = "Signika-SB.ttf";
+            font = "RobotoCondensed-Regular.ttf";
             size = calibriSize;
         }
     }
@@ -918,8 +921,19 @@ void drawDate(String &filename, JsonObject &cfgobj, tagRecord *&taginfo, imgPara
         }
     }
     if (date.is<JsonArray>()) {
-        drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, imageParams.highlightColor, weekday[3]);
-        drawString(spr, String(timeinfo.tm_mday) + " " + languageMonth[timeinfo.tm_mon], date[0], date[1], date[2], TC_DATUM, TFT_BLACK, date[3]);
+        spr.fillRect(0, 0, imageParams.width, imageParams.height/2, imageParams.highlightColor);
+        // drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, TFT_WHITE, weekday[3], TFT_TRANSPARENT);
+        
+       //drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, imageParams.highlightColor, weekday[3]);
+        // drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, TFT_WHITE, weekday[3], TFT_RED);       
+        // drawString(spr, String(timeinfo.tm_mday) + " " + languageMonth[timeinfo.tm_mon], date[0], date[1], date[2], TC_DATUM, TFT_BLACK, date[3]);
+        String day = languageDays[timeinfo.tm_wday];
+        String month = languageMonth[timeinfo.tm_mon];
+        day.toUpperCase();
+        month.toUpperCase();
+
+        drawString(spr, day, weekday[0], weekday[1], "/fonts/Roboto.ttf", TC_DATUM, TFT_WHITE, weekday[3], TFT_RED);       
+        drawString(spr, String(timeinfo.tm_mday) + " " + month, date[0], date[1], "/fonts/Roboto.ttf", TC_DATUM, TFT_BLACK, date[3]);
     } else {
         drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, TFT_BLACK, weekday[3]);
         drawString(spr, String(languageMonth[timeinfo.tm_mon]), month[0], month[1], month[2], TC_DATUM, TFT_BLACK, month[3]);
