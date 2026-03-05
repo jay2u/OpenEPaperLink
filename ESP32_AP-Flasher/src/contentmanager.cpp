@@ -932,8 +932,8 @@ void drawDate(String &filename, JsonObject &cfgobj, tagRecord *&taginfo, imgPara
         day.toUpperCase();
         month.toUpperCase();
 
-        drawString(spr, day, weekday[0], weekday[1], "/fonts/Roboto.ttf", TC_DATUM, TFT_WHITE, weekday[3], TFT_RED);       
-        drawString(spr, String(timeinfo.tm_mday) + " " + month, date[0], date[1], "/fonts/Roboto.ttf", TC_DATUM, TFT_BLACK, date[3]);
+        drawString(spr, day, weekday[0], (int16_t)( (int)weekday[1] + 7), "/fonts/Roboto.ttf", TC_DATUM, TFT_WHITE, date[3], TFT_RED);       
+        drawString(spr, String(timeinfo.tm_mday) + " " + month, date[0], (int16_t)( (int)date[1] + 4), "/fonts/Roboto.ttf", TC_DATUM, TFT_BLACK, date[3]);
     } else {
         drawString(spr, languageDays[timeinfo.tm_wday], weekday[0], weekday[1], weekday[2], TC_DATUM, TFT_BLACK, weekday[3]);
         drawString(spr, String(languageMonth[timeinfo.tm_mon]), month[0], month[1], month[2], TC_DATUM, TFT_BLACK, month[3]);
@@ -1097,7 +1097,7 @@ void drawForecast(String &filename, JsonObject &cfgobj, const tagRecord *taginfo
     }
 
     JsonDocument doc;
-    const bool success = util::httpGetJson("https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon + "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&current_weather=true&windspeed_unit=ms&timeformat=unixtime&timezone=" + tz + units, doc, 5000);
+    const bool success = util::httpGetJson("https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon + "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&current_weather=true&windspeed_unit=ms&timeformat=unixtime&timezone=" + tz + units + "&models=knmi_seamless", doc, 5000);
     if (!success) {
         return;
     }
