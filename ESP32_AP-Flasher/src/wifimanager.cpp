@@ -262,7 +262,8 @@ void WifiManager::startManagementServer() {
         WiFi.disconnect(true, true);
         delay(100);
         WiFi.mode(WIFI_AP);
-        WiFi.softAP("OpenEPaperLink", "", 1, false);
+        //WiFi.softAP("OpenEPaperLink", "", 1, false);
+        WiFi.softAP("OpenEPaperLink", "", 1, true);
         WiFi.softAPsetHostname("OpenEPaperLink");
         IPAddress IP = WiFi.softAPIP();
         terminalLog("Connect to it, visit http://" + String(IP.toString().c_str()) + "/setup");
